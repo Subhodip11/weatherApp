@@ -7,7 +7,7 @@ const HumidityWindDetail = (props) => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        margin: "0.3rem",
+        margin: "0.5rem 0.2rem",
       }}
     >
       <div style={{ fontSize: "0.9rem", color: "gray" }}>

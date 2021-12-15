@@ -1,7 +1,7 @@
 .container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
     width: 100vw;
@@ -11,7 +11,8 @@
 .weatherContainer {
     display: flex;
     justify-content: center;
-    align-items: flex-end;
+    align-items: center;
+    flex-grow: 2;
 }
 
 .weatherCondition {
@@ -33,4 +34,9 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+}
+
+.name {
+    font-weight: bold;
+    font-size: 20px;
 }

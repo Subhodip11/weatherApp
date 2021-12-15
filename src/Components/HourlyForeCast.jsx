@@ -7,7 +7,7 @@ const HourlyForeCast = ({ hourlyForecast, setHourlyForecast }) => {
   }
   useEffect(() => {
     fetchData();
-  }, []);
+  });
   return (
     <div>
       <h2 style={{ textAlign: "center" }}>HOURLY FORECAST</h2>
