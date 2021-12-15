@@ -1,0 +1,38 @@
+.hourlyCast {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    overflow-x: auto;
+    width: 700px;
+    margin: 0 auto;
+}
+
+.detailsCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.detailsCard:nth-child(1) {
+    border-radius: 0.2rem;
+    background-color: rgb(84, 188, 253);
+    color: white;
+}
+
+.detailsCard:hover {
+    border-radius: 0.4rem;
+    background-color: rgb(84, 188, 253);
+    color: white;
+}
+
+.humidity {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.condition {
+    font-weight: bold;
+}

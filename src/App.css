@@ -1,0 +1,36 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100vw;
+    height: 100vh;
+}
+
+.weatherContainer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.weatherCondition {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0.5rem;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.cloudDetail {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.details {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
