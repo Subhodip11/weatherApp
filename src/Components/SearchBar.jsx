@@ -1,10 +1,10 @@
 import React from "react";
-
+import "./SearchBar.css";
 const SearchBar = (props) => {
   return (
     <div>
-      <div className="inputBar">
-        <input id="inputTag" type="text" placeholder="Enter Location Name" />
+      <div className="inputBar" style={{ zIndex: props.zIndex }}>
+        <input id="inputTag" type="text" placeholder="Enter City Name" />
         <button
           type="submit"
           onClick={() => {

@@ -13,7 +13,9 @@ const HumidityWindDetail = (props) => {
       <div style={{ fontSize: "0.9rem", color: "gray" }}>
         {props.weatherText}
       </div>
-      <div style={{ fontWeight: "bold" }}>{props.weatherValue}</div>
+      <div style={{ fontWeight: "bold", color: "white" }}>
+        {props.weatherValue}
+      </div>
     </div>
   );
 };

@@ -4,6 +4,13 @@ import HourlyForeCast from "./Components/HourlyForeCast";
 import HumidityWindDetail from "./Components/HumidityWindDetail";
 import SearchBar from "./Components/SearchBar";
 import ErrorMssg from "./Components/ErrorMssg";
+import DayToDayForeCast from "./Components/DayToDayForeCast.";
+import ClearSky from "./images/clear_sky.jpg";
+import FewClouds from "./images/few_clouds.jpg";
+import Clouds from "./images/clouds.jpg";
+import Mist from "./images/mist.jpg";
+import Haze from "./images/hazeDay.jpg";
+import Rainy from "./images/rainyDay.jpg";
 function App() {
   const [time, setTime] = useState(new Date().toTimeString().split(" ")[0]);
   const [icon, setIcon] = useState("");
@@ -21,9 +28,12 @@ function App() {
   const [searchedContent, setSearchedContent] = useState("kolkata");
   const [statusCodeCheck, setStatusCodeCheck] = useState({ cod: "", mssg: "" });
   const apiKey = "807f589e391aa37b63d137aef2ec5cb6";
-
+  const [mssgVisibility, setMssgVisibility] = useState(true);
+  const [dailyForeCast, setDailyForeCast] = useState("");
+  const [bgImage, setBgImage] = useState(ClearSky);
   async function fecthdata() {
-    let locationName = "chennai";
+    console.log("Entered Into FetchData");
+    // let locationName = "chennai";
     const apiCall = await fetch(
       "https://api.openweathermap.org/data/2.5/weather?q=" +
         searchedContent +
@@ -32,13 +42,13 @@ function App() {
     );
     const response = await apiCall.json();
     const data = await response;
-    console.log(data);
+    // console.log(data);
     // console.log(data.weather[0].icon);
     if (data.cod === 200) {
       setIcon(
         `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
       );
-      console.log(data);
+      // console.log(data);
       setWeatherStatus({
         id: data.id,
         icon: icon,
@@ -50,8 +60,18 @@ function App() {
         humidity: data.main.humidity,
         windSpeed: data.wind.speed,
       });
-      console.log(weatherStatus);
+      // console.log(weatherStatus);
       setStatusCodeCheck({ cod: data.cod, mssg: data.message });
+      if (data.weather[0].main.toString().toLowerCase() === "clear")
+        setBgImage(ClearSky);
+      if (data.weather[0].main.toString().toLowerCase() === "clouds")
+        setBgImage(Clouds);
+      if (data.weather[0].main.toString().toLowerCase() === "mist")
+        setBgImage(Mist);
+      if (data.weather[0].main.toString().toLowerCase() === "haze")
+        setBgImage(Haze);
+      if (data.weather[0].main.toString().toLowerCase().includes("rain"))
+        setBgImage(Rainy);
       return data.id;
     } else {
       setWeatherStatus(weatherStatus);
@@ -69,8 +89,22 @@ function App() {
     const apiCall = await fetch(apiString);
     const response = await apiCall.json();
     const data = await response;
-    console.log(data);
+    // console.log(data);
     setHourlyForecast(data);
+  }
+
+  async function fetchDailyForeCast(locationId) {
+    const apiString =
+      "http://api.openweathermap.org/data/2.5/forecast?id=" +
+      locationId +
+      "&appid=" +
+      apiKey;
+    const apiCall = await fetch(apiString);
+    const response = await apiCall.json();
+    const data = await response;
+    console.log("Daily Forecast");
+    console.log(data);
+    setDailyForeCast(data);
   }
   setTimeout(() => {
     setTime(new Date().toTimeString().split(" ")[0]);
@@ -79,25 +113,43 @@ function App() {
     async function Data() {
       const LID = await fecthdata();
       fetchHourlyForeCast(LID);
+      fetchDailyForeCast(LID);
     }
     Data();
+    setMssgVisibility(true);
   }, [searchedContent]);
   return (
     <>
+      <img src={bgImage} alt="" className="bgImage" />
       <div className="container">
-        {statusCodeCheck.cod !== 200 ? (
-          <ErrorMssg
-            code={statusCodeCheck.cod}
-            mssg={statusCodeCheck.mssg}
-            color="rgba(255,255,0,0.4)"
+        {statusCodeCheck.cod !== 200
+          ? mssgVisibility && (
+              <ErrorMssg
+                code={statusCodeCheck.cod}
+                mssg={statusCodeCheck.mssg}
+                color="#FEEFB3"
+                textColor="#9F6000"
+                setMssgVisibility={setMssgVisibility}
+                zIndex={3}
+              />
+            )
+          : mssgVisibility && (
+              <ErrorMssg
+                code=""
+                mssg="Data Fetched Succesfully"
+                color="#DFF2BF"
+                textColor="#4F8A10"
+                setMssgVisibility={setMssgVisibility}
+                zIndex={3}
+              />
+            )}
+        <div className="inputBar">
+          <SearchBar
+            inputVal={searchedContent}
+            setInputVal={setSearchedContent}
+            zIndex={3}
           />
-        ) : (
-          <ErrorMssg code="" mssg="" color="white" />
-        )}
-        <SearchBar
-          inputVal={searchedContent}
-          setInputVal={setSearchedContent}
-        />
+        </div>
         <div className="weatherContainer">
           <div className="weatherCondition">
             <div className="name">{weatherStatus.lName}</div>
@@ -131,6 +183,10 @@ function App() {
             setHourlyForecast={setHourlyForecast}
           />
         </div>
+        <DayToDayForeCast
+          dailyForeCast={dailyForeCast}
+          setDailyForeCast={setDailyForeCast}
+        />
       </div>
     </>
   );
